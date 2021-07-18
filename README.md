@@ -26,7 +26,7 @@ You can then execute the native executable with: `./build/quarkus-example-0.0.1-
 
 ## Explore
 
-The following endpoints available when the application is running:
+The following endpoints are available when the application is running:
 
 | Endpoint                        | Description                                 |
 | ------------------------------- | ------------------------------------------- |
