@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id 'com.github.spotbugs' version '4.7.2'
+    id 'checkstyle'
+    id 'com.bmuschko.docker-remote-api' version '6.7.0'
+}
+
+import com.bmuschko.gradle.docker.tasks.image.*
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+group 'com.github.vontikov'
+version '0.0.1'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+checkstyle {
+    toolVersion = '8.44'
+    reportsDir = file("${buildDir}/reports/checkstyle")
+    showViolations = true
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+spotbugs {
+    ignoreFailures = false
+    showStackTraces = false
+    showProgress = true
+}
+
+quarkusBuild {
+    nativeArgs {
+        containerBuild = true
+        builderImage = 'quay.io/quarkus/ubi-quarkus-native-image:21.1.0-java16'
+    }
+}
+
+task image(type: DockerBuildImage) {
+    inputDir = file("${rootDir}")
+    images.add('com.github.vontikov/quarkus-example:latest')
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-reactive-pg-client'
+    implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
+    implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
