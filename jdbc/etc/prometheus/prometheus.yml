@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'quarkus'
+    metrics_path: /q/metrics
+    static_configs:
+      - targets: ['quarkus:8080']
+        labels:
+          name: 'quarkus'

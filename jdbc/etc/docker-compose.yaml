@@ -1,0 +1,54 @@
+version: '3.8'
+
+networks:
+  quarkus-test:
+
+services:
+  postgres:
+    image: postgres
+    networks:
+      - quarkus-test
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - published: 5432
+        target: 5432
+        protocol: tcp
+    deploy:
+      endpoint_mode: dnsrr
+
+  quarkus:
+    image: com.github.vontikov/quarkus-jdbc-example:1.0.0-SNAPSHOT
+    networks:
+      - quarkus-test
+    environment:
+      - QUARKUS_THREAD_POOL_MAX_THREADS=12
+      - QUARKUS_SMALLRYE_METRICS_MICROMETER_COMPATIBILITY=true
+      - QUARKUS_SMALLRYE_METRICS_JAXRS_ENABLED=true
+      - DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+    ports:
+      - published: 8080
+        target: 8080
+        protocol: tcp
+    deploy:
+      endpoint_mode: dnsrr
+    depends_on:
+      - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: 0.50
+          memory: 128M
+
+  prometheus:
+    image: prom/prometheus
+    networks:
+      - quarkus-test
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - published: 9090
+        target: 9090
+        protocol: tcp
+    depends_on:
+      - quarkus
