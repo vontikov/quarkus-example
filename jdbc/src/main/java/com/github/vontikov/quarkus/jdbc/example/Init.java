@@ -50,6 +50,7 @@ public class Init {
                     return;
                 } catch (SQLException ex) {
                     // NOOP
+                    log.warn("Init error", ex);
                 }
             }
         });

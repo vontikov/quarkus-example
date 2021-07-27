@@ -24,13 +24,13 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 public class FruitResource {
 
     @Inject
-    DataSourceBean dsb;
+    Fruit fr;
 
     @GET
     @Counted
     public List<Fruit> get() throws SQLException {
         log.info("get: thread: {}", Thread.currentThread().getName());
-        return Fruit.findAll(dsb.getConnection());
+        return fr.findAll();
     }
 
     @GET
@@ -38,7 +38,7 @@ public class FruitResource {
     @Counted
     public Response getSingle(@PathParam Long id) throws SQLException {
         log.info("getSingle: thread: {}", Thread.currentThread().getName());
-        val o = Fruit.findById(dsb.getConnection(), id);
+        val o = fr.findById(id);
         if (!o.isPresent()) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -49,7 +49,7 @@ public class FruitResource {
     @Counted
     public Response create(Fruit fruit) throws SQLException {
         log.info("create: thread: {}", Thread.currentThread().getName());
-        val id = fruit.create(dsb.getConnection(), fruit);
+        val id = fr.create(fruit);
         return Response.status(Status.CREATED).entity(id).build();
     }
 
@@ -58,7 +58,7 @@ public class FruitResource {
     @Counted
     public Response delete(@PathParam Long id) throws SQLException {
         log.info("delete: thread: {}", Thread.currentThread().getName());
-        if (!Fruit.delete(dsb.getConnection(), id)) {
+        if (!fr.delete(id)) {
             return Response.status(Status.NOT_FOUND).build();
         }
         return Response.status(Status.NO_CONTENT).build();

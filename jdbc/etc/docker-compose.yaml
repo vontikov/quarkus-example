@@ -22,7 +22,7 @@ services:
     networks:
       - quarkus-test
     environment:
-      - QUARKUS_THREAD_POOL_MAX_THREADS=12
+      - QUARKUS_THREAD_POOL_MAX_THREADS=48
       - QUARKUS_SMALLRYE_METRICS_MICROMETER_COMPATIBILITY=true
       - QUARKUS_SMALLRYE_METRICS_JAXRS_ENABLED=true
       - DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
@@ -37,8 +37,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.50
-          memory: 128M
+#         cpus: 0.50
+          memory: 512M
 
   prometheus:
     image: prom/prometheus
