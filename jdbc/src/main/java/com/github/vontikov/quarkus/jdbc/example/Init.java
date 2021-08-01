@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -17,13 +18,12 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @Slf4j
 public class Init {
 
-    private final DataSourceBean dsb;
+    @Inject
+    DataSourceBean dsb;
     private final boolean createSchema;
 
-    public Init(DataSourceBean dsb,
-            @ConfigProperty(name = "app.db.schema.create", defaultValue = "true")
+    public Init(@ConfigProperty(name = "app.db.schema.create", defaultValue = "true")
             boolean createSchema) {
-        this.dsb = dsb;
         this.createSchema = createSchema;
     }
 
