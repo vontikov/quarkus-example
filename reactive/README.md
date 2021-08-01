@@ -1,6 +1,4 @@
-# quarkus-example
-
-This project uses [Quarkus](https://quarkus.io), the Supersonic Subatomic Java Framework.
+# quarkus-reactive
 
 ## Build
 
@@ -10,7 +8,7 @@ The application can be packaged using:
 ./gradlew build
 ```
 
-It produces a native executable `quarkus-example-0.0.1-runner` file in the `./build/` directory.
+It produces a native executable `quarkus-reactive-example-0.0.1-runner` file in the `./build/` directory.
 
 ## Running the application
 
