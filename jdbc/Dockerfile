@@ -7,4 +7,6 @@ RUN apk update \
 
 COPY target/*-runner /usr/local/bin/application
 
+EXPOSE 8080
+
 CMD ["application"]

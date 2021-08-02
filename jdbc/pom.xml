@@ -31,6 +31,7 @@
     <lombok.version>1.18.20</lombok.version>
 
     <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
+    <greeting-extension.version>1.0.0-SNAPSHOT</greeting-extension.version>
   </properties>
 
   <dependencyManagement>
@@ -97,6 +98,11 @@
       <groupId>org.testcontainers</groupId>
       <artifactId>postgresql</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.vontikov</groupId>
+      <artifactId>greeting-extension</artifactId>
+      <version>${greeting-extension.version}</version>
     </dependency>
   </dependencies>
 

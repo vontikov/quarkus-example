@@ -5,6 +5,7 @@ build/
 
 # Maven
 .mvn
+target/
 
 # Eclipse
 .project
