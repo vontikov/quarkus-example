@@ -31,7 +31,6 @@
     <lombok.version>1.18.20</lombok.version>
 
     <exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
-    <greeting-extension.version>1.0.0-SNAPSHOT</greeting-extension.version>
   </properties>
 
   <dependencyManagement>
@@ -98,11 +97,6 @@
       <groupId>org.testcontainers</groupId>
       <artifactId>postgresql</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.vontikov</groupId>
-      <artifactId>greeting-extension</artifactId>
-      <version>${greeting-extension.version}</version>
     </dependency>
   </dependencies>
 
@@ -230,6 +224,19 @@
               </execution>
             </executions>
           </plugin>
+        </plugins>
+      </build>
+
+      <properties>
+        <quarkus.package.type>native</quarkus.package.type>
+        <quarkus.native.container-build>false</quarkus.native.container-build>
+        <quarkus.native.builder-image>quay.io/quarkus/ubi-quarkus-mandrel:21.1-java11</quarkus.native.builder-image>
+      </properties>
+    </profile>
+    <profile>
+      <id>docker</id>
+      <build>
+        <plugins>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
@@ -258,12 +265,6 @@
           </plugin>
         </plugins>
       </build>
-
-      <properties>
-        <quarkus.package.type>native</quarkus.package.type>
-        <quarkus.native.container-build>true</quarkus.native.container-build>
-        <quarkus.native.builder-image>quay.io/quarkus/ubi-quarkus-mandrel:21.1-java11</quarkus.native.builder-image>
-      </properties>
     </profile>
   </profiles>
 </project>
